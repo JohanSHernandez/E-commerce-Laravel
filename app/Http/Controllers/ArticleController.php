@@ -2,63 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ArticleRequest;
+use App\Models\Article;
+use App\Models\BlogCategory;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $articles = Article::with('blogCategory')
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
+            
+        return view('blog.articles.index', compact('articles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $blogCategories = BlogCategory::all();
+        return view('blog.articles.create', compact('blogCategories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $data = $request->validated();
+        
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('articles', 'public');
+        }
+        
+        Article::create($data);
+        
+        return redirect()->route('articles.index')
+            ->with('success', __('Article created successfully'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Article $article)
     {
-        //
+        $article->load(['comments' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
+        
+        return view('blog.articles.show', compact('article'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Article $article)
     {
-        //
+        $blogCategories = BlogCategory::all();
+        return view('blog.articles.edit', compact('article', 'blogCategories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $data = $request->validated();
+        
+        if ($request->hasFile('image')) {
+            if ($article->image) {
+                Storage::disk('public')->delete($article->image);
+            }
+            
+            $data['image'] = $request->file('image')->store('articles', 'public');
+        }
+        
+        $article->update($data);
+        
+        return redirect()->route('articles.index')
+            ->with('success', __('Article updated successfully'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Article $article)
     {
-        //
+        if ($article->image) {
+            Storage::disk('public')->delete($article->image);
+        }
+        
+        $article->delete();
+        
+        return redirect()->route('articles.index')
+            ->with('success', __('Article deleted successfully'));
     }
 }
