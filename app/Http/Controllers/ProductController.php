@@ -2,63 +2,89 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LowStockNotification;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $categoryId = $request->input('category_id');
+        $query = Product::with('category');
+        
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+        
+        $products = $query->paginate(12);
+        $categories = Category::all();
+        
+        return view('products.index', compact('products', 'categories', 'categoryId'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
+        
+        $product = Product::create($data);
+        
+        if ($product->stock < 5) {
+            Mail::to('admin@example.com')->send(new LowStockNotification($product));
+        }
+        
+        return redirect()->route('products.index')
+            ->with('success', __('Product created successfully'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+        
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
+        
+        $oldStock = $product->stock;
+        $product->update($data);
+        
+        if ($oldStock >= 5 && $product->stock < 5) {
+            Mail::to('admin@example.com')->send(new LowStockNotification($product));
+        }
+        
+        return redirect()->route('products.index')
+            ->with('success', __('Product updated successfully'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        
+        return redirect()->route('products.index')
+            ->with('success', __('Product deleted successfully'));
     }
 }
