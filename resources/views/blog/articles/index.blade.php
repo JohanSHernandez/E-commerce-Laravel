@@ -46,7 +46,6 @@
                     @endforeach
                 </div>
 
-                <!-- Pagination -->
                 <div class="mt-6">
                     {{ $articles->links() }}
                 </div>

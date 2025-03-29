@@ -18,7 +18,7 @@
                     <form action="{{ route('products.index') }}" method="GET" class="flex items-center">
                         <label for="category_id" class="mr-2">{{ __('messages.product_category') }}:</label>
                         <select name="category_id" id="category_id" class="rounded border-gray-300 mr-2">
-                            <option value="">{{ __('All Categories') }}</option>
+                            <option value="">{{ __('messages.all_categories') }}</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
@@ -26,7 +26,7 @@
                             @endforeach
                         </select>
                         <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                            {{ __('Filter') }}
+                            {{ __('messages.filter') }}
                         </button>
                     </form>
                 </div>

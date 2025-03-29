@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo.png') }}" alt="logo" class="block h-10 w-auto">
+                        <img src="{{ asset('images/logo.png') }}" alt="logo" class="block h-15 w-auto">
                     </a>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -21,9 +21,9 @@
                         {{ __('messages.blog') }}
                     </a>
                 </div>
-            </div class="hidden sm:flex sm:items-center sm:ml-6">
+ {{--            </div class="hidden sm:flex sm:items-center sm:ml-6">
                 <div class="ml-3 relative">
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 py-4">
                         <a href="{{ route('language.switch', 'en') }}" class="text-sm text-gray-500 hover:text-gray-700 {{ app()->getLocale() == 'en' ? 'font-bold' : '' }}">
                             English
                         </a>
@@ -31,7 +31,7 @@
                             Español
                     </div>
                 </div>
-            <div>
+            <div> --}}
             </div>
         </div>
     </div>

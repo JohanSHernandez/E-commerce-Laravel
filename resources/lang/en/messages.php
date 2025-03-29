@@ -12,7 +12,7 @@ return [
     'footer_tagline' => 'Your one-stop shop for products and information',
     'quick_links' => 'Quick Links',
     
-    // Products
+    // Productos
     'products' => 'Products',
     'product' => 'Product',
     'product_name' => 'Name',
@@ -22,6 +22,8 @@ return [
     'product_category' => 'Category',
     'product_image' => 'Image',
     'out_of_stock' => 'Out of stock',
+    'featured_products' => 'Featured Products',
+    'no_products_yet' => 'No products available yet',
     'low_stock' => 'Low stock',
     
     // Blog
@@ -32,9 +34,17 @@ return [
     'article_author' => 'Author',
     'article_category' => 'Category',
     'article_image' => 'Image',
+    'published_at' => 'Publication Date',
+    'latest_articles' => 'Latest Articles',
+    'no_articles_yet' => 'No articles available yet',
+    'by' => 'By',
     'published_at' => 'Published at',
+    'Create New Article' => 'Create New Article',
+    'Select a category' => 'Select a category',
+    'Create New Blog Category' => 'Create New Blog Category',
+
     
-    // Comments
+    // Comentarios
     'comments' => 'Comments',
     'comment' => 'Comment',
     'add_comment' => 'Add a comment',
@@ -42,26 +52,39 @@ return [
     'your_email' => 'Your email',
     'your_comment' => 'Your comment',
     
-    // Actions
+    // Acciones
     'create' => 'Create',
     'edit' => 'Edit',
     'update' => 'Update',
     'delete' => 'Delete',
     'save' => 'Save',
     'cancel' => 'Cancel',
+    'filter' => 'Filter',
+    'all_categories' => 'All Categories',
+    'Create New Category' => 'Create New Category',
     'submit' => 'Submit',
     'back' => 'Back',
     'view' => 'View',
     'view_details' => 'View Details',
     'read_more' => 'Read more',
+
+    // Welcome
+    'welcome_title' => 'Welcome to :name',
+    'welcome_subtitle' => 'Discover our products and read our latest articles',
+    'hero_image' => 'Hero Image',
+    'no_image' => 'No Image',
     
-    // Notifications
+    // Descriptions
+    'name' => 'Name',
+    'description' => 'Description',
+    
+    // Notificaciones
     'created_successfully' => ':item created successfully',
     'updated_successfully' => ':item updated successfully',
     'deleted_successfully' => ':item deleted successfully',
     'error_occurred' => 'An error occurred',
     
-    // Validation
+    // Validaciones
     'required' => 'The :attribute field is required',
     'email' => 'The :attribute must be a valid email address',
     'min' => 'The :attribute must be at least :min characters',
