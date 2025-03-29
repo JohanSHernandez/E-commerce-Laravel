@@ -19,7 +19,7 @@ Route::resource('categories', CategoryController::class);
 /* Seccion del blog */
 Route::resource('articles', ArticleController::class);
 Route::resource('blog-categories', BlogCategoryController::class);
-Route::resource('commets', CommentController::class)->except(['index','create','show']);
+Route::resource('comments', CommentController::class)->except(['index','create','show']);
 
 /* Cambio de idioma */
 Route::get('language/{locale}', function ($locale) {
